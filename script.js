@@ -19,41 +19,59 @@ function lanzarCincoDados() {
 
 // Construir aquí la solución al examen
 
+// esta funcion mostrará las imagenes que coincidan con el dado tirado
 function mostrarImagenes(array){
-  let i = 0
-  for (let dado of array){
-    imagen = "dados/"+ dado +".png"
-    dado = document.querySelector("#dado-" + i)
-    dado.src = imagen
-    i ++
+  let i = 0                                     // creamos el contador
+  for (let dado of array){                      // iteramos el array con la tirada de dados
+    imagen = "dados/"+ dado +".png"             // creamos el texto que hará referencia a la imagen
+    dado = document.querySelector("#dado-" + i) // seleccionamos la etiqueta html correspoondiente
+    dado.src = imagen                           // insertamos el texto html que creamos en imagen en dado.src
+    i ++                                        // sumamos +1 al contador
   }  
 }
 
-let boton = document.querySelector("#mesa button")
-boton.addEventListener("click", () => {
-  let tirada = lanzarCincoDados();
-  mostrarImagenes(tirada)
+// esta funcion detectara si hay tres dados repetidos
+function hayTresRepetidos(array){ //recibe el array con la tirada de dados
+  for (let i = 0; i <= 3 ; i++){  // creamos el iterador
+    if(array[i] == array[i+2]){   // si el dado iterado es igual al dado que está dos posiciones adelante quiere decir que está repetido 3 veces
+      return true                 // retornamos true
+    }}
+  return false                    // de lo contrario retornamos false
+}
+
+// esta funcion recibe el array de dados y calcula su puntaje con las pautas de la consigna
+function calcularPuntaje (array){         // recibimos el array con la tirada
+  suma = 0
+  if (hayTresRepetidos(array) == true){   // si la funcion devuelve true
+    suma = array[2] * 100                 // la suma sera el numero del medio multiplicado por 100
+  } else {                                // si no hay 3 repetidos
+    for (let dado of array){              // itermaos la lista con un for of
+      suma = suma + dado                  // y realizamos una suma simple
+    }}
+  return suma                             // devolvemos el resultados
+}
+
+// esta funcion recibe el puntaje y ejecuta la logica del juego
+function logicaJuego(int){
+  let puntajeAnterior = document.querySelector("#anterior"); 
+  let puntajeActual = document.querySelector("#actual");
+
+  puntajeAnterior.textContent = puntajeActual.textContent // almacenamos el puntaje actual en el anterior (inicialmente 0)
+  puntajeActual.textContent = int                         // despues llenamos puntaje actual con el parametro
+
+  if (parseInt(puntajeAnterior.textContent) >= parseInt(puntajeActual.textContent)){ // si el anterior es igual o mayor que el actual
+    boton.disabled = true                 // desactivamos el boton
+    boton.textContent = "Perdiste :("     // cambiamos el texto
+    puntajeActual.textContent = 0         // y volvemos el puntaje actual a 0.
+  } else {                                // si lo anterior no pasa
+    boton.textContent = "Lanzar de nuevo" // solo cambiamos el texto
+  }}
+
+let boton = document.querySelector("#mesa button") // almacenamos el boton en la variable
+
+boton.addEventListener("click", () => { //creamos el listener que se activará con el click en el boton
+  let tirada = lanzarCincoDados();      // almacenamos en tirada el resultado de la fucnion lanzarCincoDados
+  mostrarImagenes(tirada)               // ejecutamos la funcion mostrarImagenes con el array de dados de parametro
+  puntaje = calcularPuntaje(tirada)     // almacenamos en puntaje el resultado de la funcion calcularPuntaje
+  logicaJuego(puntaje)                  // y por ultimo ejecutamos la funcion que ejecuta la logica del juego con puntaje como parametro
 })
-
-
-
-
-
-// Al hacer clic en el botón que dice “Lanzar dados”:
-
-//   1 Invocar a la función lanzarCincoDados(). Esta función ya está desarrollada en el archivo, y retorna un array de cinco números 
-//      aleatorios del 1 al 6, que simulan el lanzamiento de cinco dados. Estos números siempre se retornan en orden, de menor a mayor.
-//   2 Con estos valores, mostrar las imágenes correspondientes de los cinco dados. Los archivos con las imágenes necesarias están en la carpeta dados. Tener en cuenta que el src de la imagen tendrá la forma "dados/X.png", donde X es el número que corresponde.
-//   3  Calcular el puntaje obtenido, del siguiente modo:
-//         Si hay 3 o más dados que son iguales, el puntaje es igual a 100 veces el valor repetido. Por ejemplo, si el número 5 aparece repetido 3 ó más veces, el puntaje será de 500 puntos.
-//         De lo contrario, el puntaje es la suma de los cinco dados.
-//    4 La continuidad del juego depende de la siguiente condición:
-//         Si el lanzamiento actual es menor que el anterior, el jugador pierde:
-//             El que hasta ahora figuraba en la página como resultado actual, pasa a figurar como resultado anterior.
-//             El resultado actual será igual a 0, sin importar lo obtenido en el punto 3.
-//             El botón debe quedar deshabilitado.
-//             El texto del botón debe decir “No hay más lanzamientos”
-//         Si el lanzamiento actual es mayor o igual que el anterior:
-//             El que hasta ahora figuraba en la página como resultado actual, pasa a figurar como resultado anterior.
-//             El nuevo resultado actual es el puntaje obtenido en el punto 3.
-//             El texto del botón debe decir “Lanzar nuevamente”.
