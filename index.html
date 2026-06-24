@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Juego de dados</title>
+        <link rel="stylesheet" href="estilo.css">
+    </head>
+    <body>
+        <h1>Juego de dados</h1>
+        <div id="mesa">
+            <div id="dados">
+                <img id="dado-0" src="dados/1.png" alt="1">
+                <img id="dado-1" src="dados/1.png" alt="1">
+                <img id="dado-2" src="dados/1.png" alt="1">
+                <img id="dado-3" src="dados/1.png" alt="1">
+                <img id="dado-4" src="dados/1.png" alt="1">
+            </div>
+            <button type="button">Lanzar dados</button>
+        </div>
+        <div id="resultado">
+            <p><strong>Resultado anterior: <span id="anterior">0</span></p>
+            <p><strong>Resultado actual: <span id="actual">0</span></p>
+        </div>
+        <hr>
+        <div id="consigna">
+            <h2 id="consigna">Consigna</h2>
+            <p>Revisar el archivo <code>index.html</code>, y agregar la siguiente funcionalidad modificando únicamente el archivo <code>script.js</code>.</p>
+            <p>Al hacer clic en el botón que dice “Lanzar dados”:</p>
+            <ol type="1">
+                <li>Invocar a la función <code>lanzarCincoDados()</code>. Esta función ya está desarrollada en el archivo, y retorna un array de cinco números aleatorios del 1 al 6, que simulan el lanzamiento de cinco dados. Estos números <strong>siempre</strong> se retornan en orden, de menor a mayor.</li>
+                <li>Con estos valores, mostrar las imágenes correspondientes de los cinco dados. Los archivos con las imágenes necesarias están en la carpeta <code>dados</code>. Tener en cuenta que el <code>src</code> de la imagen tendrá la forma <code>"dados/X.png"</code>, donde <code>X</code> es el número que corresponde.</li>
+                <li>Calcular el puntaje obtenido, del siguiente modo:
+                    <ul>
+                        <li>Si hay 3 o más dados que son iguales, el puntaje es igual a 100 veces el valor repetido. Por ejemplo, si el número 5 aparece repetido 3 ó más veces, el puntaje será de 500 puntos.</li>
+                        <li>De lo contrario, el puntaje es la suma de los cinco dados.</li>
+                    </ul></li>
+                    <li>La continuidad del juego depende de la siguiente condición:
+                        <ul>
+                            <li>Si el lanzamiento actual es <strong>menor</strong> que el anterior, el jugador pierde:
+                                <ul>
+                                    <li>El que <em>hasta ahora</em> figuraba en la página como <strong>resultado actual</strong>, pasa a figurar como <strong>resultado anterior</strong>.</li>
+                                    <li>El resultado actual será igual a <code>0</code>, sin importar lo obtenido en el punto 3.</li>
+                                    <li>El botón debe quedar deshabilitado.</li>
+                                    <li>El texto del botón debe decir “No hay más lanzamientos”</li>
+                                </ul></li>
+                                <li>Si el lanzamiento actual es <strong>mayor o igual</strong> que el anterior:
+                                    <ul>
+                                        <li>El que hasta ahora figuraba en la página como resultado actual, pasa a figurar como resultado anterior.</li>
+                                        <li>El nuevo resultado actual es el puntaje obtenido en el punto 3.</li>
+                                        <li>El texto del botón debe decir “Lanzar nuevamente”.</li>
+                                    </ul></li>
+                        </ul></li>
+            </ol>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
